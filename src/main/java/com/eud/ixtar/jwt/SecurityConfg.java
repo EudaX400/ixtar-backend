@@ -16,9 +16,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfg {
 
-    private JwtAuthenticationFilter jwtAuthenticationFilter = null;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    public void SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+    public SecurityConfg(JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
@@ -26,17 +26,17 @@ public class SecurityConfg {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/api/auth/**").permitAll()  
+                        .requestMatchers("/api/auth/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);  
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();  
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -44,4 +44,3 @@ public class SecurityConfg {
         return configuration.getAuthenticationManager();
     }
 }
-

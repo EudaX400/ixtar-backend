@@ -15,7 +15,7 @@ import javax.crypto.SecretKey;
 @Component
 public class JwtUtils {
 
-    static SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private static SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     public static String generateToken(User user) {
         return Jwts.builder()
@@ -24,5 +24,9 @@ public class JwtUtils {
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000))
                 .signWith(key) 
                 .compact();
+    }
+
+    public static SecretKey getKey() {
+        return key;
     }
 }
