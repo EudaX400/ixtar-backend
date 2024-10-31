@@ -1,5 +1,7 @@
 package com.eud.ixtar.controllers;
 
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +24,9 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
-        return ResponseEntity.ok(authService.register(user));
+        System.out.println("Intentando registrar usuario: " + user.getUsername());
+        String result = authService.register(user);
+        return ResponseEntity.ok(Map.of("message", result));
     }
 
     @PostMapping("/login")
