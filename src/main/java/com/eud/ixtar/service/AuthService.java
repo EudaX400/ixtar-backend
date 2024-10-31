@@ -34,8 +34,8 @@ public class AuthService {
         return "Usuario registrado exitosamente";
     }
 
-    public User login(String username, String password) {
-        Optional<User> user = userRepository.findByUsername(username);
+    public User login(String email, String password) {
+        Optional<User> user = userRepository.findByEmail(email);
 
         
         if (user.isPresent() && passwordEncoder.matches(password, (String) user.get().getPassword())) {

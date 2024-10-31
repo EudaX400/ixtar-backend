@@ -31,21 +31,21 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        User user = authService.login(request.getUsername(), request.getPassword());
+        User user = authService.login(request.getEmail(), request.getPassword());
         String token = JwtUtils.generateToken(user);
         return ResponseEntity.ok(new AuthResponse(token));
     }
 }
 
 class LoginRequest {
-    private String username;
+    private String email;
     private String password;
     // Getters y setters
     public String getPassword() {
         return password;
     }
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 }
 
