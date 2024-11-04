@@ -2,6 +2,9 @@ package com.eud.ixtar.kanban.task;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class KanbanTaskService {
 
     private final KanbanTaskRepository taskRepository;
