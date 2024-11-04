@@ -25,7 +25,7 @@ public class Brainstorming {
     private Project project;
 
     @ManyToOne
-    @Column(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     public String getIdea(){

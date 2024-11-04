@@ -6,6 +6,7 @@ import java.util.Date;
 
 import com.eud.ixtar.kanban.column.KanbanColumn;
 import com.eud.ixtar.project.Project;
+import com.eud.ixtar.users.User;
 
 @Entity
 @Table(name = "kanban_tasks")
@@ -20,8 +21,9 @@ public class KanbanTask {
 
     private String description;
 
-    @Column(name = "assigned_to")
-    private Integer assignedTo;
+    @ManyToOne
+    @JoinColumn(name = "assigned_to")
+    private User assignedUser;
 
     @Column(nullable = false)
     private Integer position;
@@ -56,12 +58,12 @@ public class KanbanTask {
         this.description = description;
     }
 
-    public Integer getAssignedTo() {
-        return assignedTo;
+    public User getAssignedTo() {
+        return assignedUser;
     }
 
-    public void setAssignedTo(Integer assignedTo) {
-        this.assignedTo = assignedTo;
+    public void setAssignedTo(User assignedUser) {
+        this.assignedUser = assignedUser;
     }
 
     public LocalDateTime getCreatedAt() {

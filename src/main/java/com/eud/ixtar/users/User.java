@@ -24,15 +24,15 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private LocalDateTime created_at;
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user_id", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Brainstorming> brainstormings;
 
     @PrePersist
     protected void onCreate() {
-        this.created_at = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
     }
 
     public CharSequence getPassword() {
@@ -56,7 +56,7 @@ public class User {
     }
 
     public LocalDateTime getCreatedAt() {
-        return created_at;
+        return createdAt;
     }
 
     public List<Brainstorming> getBrainstormings() {

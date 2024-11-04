@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.eud.ixtar.brainstorming.Brainstorming;
 import com.eud.ixtar.kanban.column.KanbanColumn;
+import com.eud.ixtar.users.User;
 
 @Entity
 @Table(name = "project")
@@ -21,8 +22,9 @@ public class Project {
 
     private String description;
 
-    @Column(name = "owner_id", nullable = false)
-    private Integer ownerId;
+    @ManyToOne
+    @JoinColumn(name = "owner_id", nullable = false)
+    private User owner;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -37,7 +39,15 @@ public class Project {
     private List<KanbanColumn> kanbanColumns;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Brainstorming> brainstorming;
+    private List<Brainstorming> brainstormings;
+
+    @ManyToMany
+    @JoinTable(
+        name = "project_members",
+        joinColumns = @JoinColumn(name = "project_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> members;
 
     public String getName() {
         return name;
@@ -55,8 +65,12 @@ public class Project {
         this.description=description;
     }
 
-    public Integer getOwnerId() {
-        return ownerId;
+    public User getOwner() {  
+        return owner;
+    }
+
+    public void setOwner(User owner) {  
+        this.owner = owner;
     }
 
     public LocalDateTime getCreatedAt(){
@@ -91,8 +105,8 @@ public class Project {
         return kanbanColumns;
     }
 
-    public List<Brainstorming> geBrainstorming(){
-        return brainstorming;
+    public List<Brainstorming> geBrainstormings(){
+        return brainstormings;
     }
 
 }
