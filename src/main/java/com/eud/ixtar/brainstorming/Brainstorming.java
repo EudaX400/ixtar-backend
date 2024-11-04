@@ -24,7 +24,7 @@ public class Brainstorming {
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
-    @OneToMany
+    @ManyToOne
     @Column(name = "user_id", nullable = false)
     private User user;
 

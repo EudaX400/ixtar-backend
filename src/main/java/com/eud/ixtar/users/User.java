@@ -2,6 +2,9 @@ package com.eud.ixtar.users;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
+
+import com.eud.ixtar.brainstorming.Brainstorming;
 
 @Entity
 @Table(name = "users")
@@ -23,6 +26,9 @@ public class User {
 
     @Column(nullable = false)
     private LocalDateTime created_at;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Brainstorming> brainstormings;
 
     @PrePersist
     protected void onCreate() {
@@ -52,5 +58,12 @@ public class User {
     public LocalDateTime getCreatedAt() {
         return created_at;
     }
-}
 
+    public List<Brainstorming> getBrainstormings() {
+        return brainstormings;
+    }
+
+    public void setBrainstormings(List<Brainstorming> brainstormings) {
+        this.brainstormings = brainstormings;
+    }
+}
