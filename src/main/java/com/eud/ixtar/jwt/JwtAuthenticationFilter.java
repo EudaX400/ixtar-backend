@@ -34,11 +34,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String header = request.getHeader("Authorization");
         if (header != null && header.startsWith("Bearer ")) {
             String token = header.substring(7);
-            String username = Jwts.parserBuilder().setSigningKey(JwtUtils.getKey()).build().parseClaimsJws(token)
+            String email = Jwts.parserBuilder().setSigningKey(JwtUtils.getKey()).build().parseClaimsJws(token)
                     .getBody()
                     .getSubject();
 
-            UserDetails userDetails = userService.loadUserByUsername(username);
+            UserDetails userDetails = userService.loadUserByUsername(email);
             if (userDetails != null) {
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());

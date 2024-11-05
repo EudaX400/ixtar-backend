@@ -36,14 +36,14 @@ public class AuthService {
     }
 
     public String login(String email, String password) {
-    Optional<User> user = userRepository.findByEmail(email);
-
-    if (user.isPresent() && passwordEncoder.matches(password, (String) user.get().getPassword())) {
-        User foundUser = user.get();
-        return JwtUtils.generateToken(foundUser);
+        Optional<User> user = userRepository.findByEmail(email);
+    
+        if (user.isPresent() && passwordEncoder.matches(password, (String) user.get().getPassword())) {
+            User foundUser = user.get();
+            return JwtUtils.generateToken(foundUser);
+        }
+    
+        throw new RuntimeException("Credenciales incorrectas");
     }
-
-    throw new RuntimeException("Credenciales incorrectas");
-}
 
 }
