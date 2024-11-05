@@ -3,6 +3,7 @@ package com.eud.ixtar.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.eud.ixtar.jwt.JwtUtils;
 import com.eud.ixtar.users.User;
 import com.eud.ixtar.users.UserRepository;
 
@@ -34,14 +35,15 @@ public class AuthService {
         return "Usuario registrado exitosamente";
     }
 
-    public User login(String email, String password) {
-        Optional<User> user = userRepository.findByEmail(email);
+    public String login(String email, String password) {
+    Optional<User> user = userRepository.findByEmail(email);
 
-        
-        if (user.isPresent() && passwordEncoder.matches(password, (String) user.get().getPassword())) {
-            return user.get();
-        }
-
-        throw new RuntimeException("Credenciales incorrectas");
+    if (user.isPresent() && passwordEncoder.matches(password, (String) user.get().getPassword())) {
+        User foundUser = user.get();
+        return JwtUtils.generateToken(foundUser);
     }
+
+    throw new RuntimeException("Credenciales incorrectas");
+}
+
 }

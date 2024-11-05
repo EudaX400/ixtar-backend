@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.eud.ixtar.jwt.JwtUtils;
 import com.eud.ixtar.service.AuthService;
 import com.eud.ixtar.users.User;
 import com.eud.ixtar.users.UserRepository;
@@ -38,16 +37,18 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        User user = authService.login(request.getEmail(), request.getPassword());
-        String token = JwtUtils.generateToken(user);
+        String token = authService.login(request.getEmail(), request.getPassword());
         return ResponseEntity.ok(new AuthResponse(token));
     }
 
     @GetMapping("/profile")
     public ResponseEntity<?> getProfile(Principal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Denied: Unauthorized User");
+        }
         String email = principal.getName();
         Optional<User> userOptional = userRepository.findByEmail(email);
-
+    
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             Map<String, Object> userInfo = Map.of(
@@ -59,6 +60,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
         }
     }
+    
 
 }
 
