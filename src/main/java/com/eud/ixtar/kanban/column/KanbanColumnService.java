@@ -1,8 +1,10 @@
 package com.eud.ixtar.kanban.column;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class KanbanColumnService {
@@ -27,4 +29,15 @@ public class KanbanColumnService {
     public void deleteColumn(Integer columnId) {
         columnRepository.deleteById(columnId);
     }
+
+    public void reorderColumn(Integer columnId, Integer newPosition) {
+        KanbanColumn column = columnRepository.findById(columnId).orElseThrow();
+        column.setPosition(newPosition);
+        columnRepository.save(column);
+    }
+
+    public Optional<KanbanColumn> getColumnById(Integer id) {
+        return columnRepository.findById(id);
+    }
+    
 }

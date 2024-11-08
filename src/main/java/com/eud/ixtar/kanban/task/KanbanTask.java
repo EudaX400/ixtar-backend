@@ -94,4 +94,13 @@ public class KanbanTask {
         return project;
     }
 
+    public void setProject(Project project2) {
+        this.project = project2;
+    }
+
+    public void setId(Integer taskId) {
+        this.id = taskId;
+    }
+    
+
 }

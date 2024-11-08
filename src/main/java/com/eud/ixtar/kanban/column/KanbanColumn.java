@@ -47,12 +47,23 @@ public class KanbanColumn {
         return project;
     }
 
+    public void setProject(Project project2) {
+        this.project = project2;
+    }
+
     public List<KanbanTask> getKanbanTask(){
             return tasks;
     }
 
-    public void setKanbanTask(List<KanbanTask> tasks){
+    public void setKanbanTask(List<KanbanTask> tasks) {
+        for (KanbanTask task : tasks) {
+            task.setColumn(this);
+        }
         this.tasks = tasks;
+    }
+
+    public void setId(Integer columnId) {
+        this.id=columnId;
     }
 }
 
