@@ -31,6 +31,7 @@ public class ProjectController {
 
     @PostMapping
     public ResponseEntity<Project> createProject(@RequestBody Project project, Principal principal) {
+        System.out.println("Solicitud de creación de proyecto recibida: " + project.getName());
         Optional<User> ownerOpt = userRepository.findByEmail(principal.getName());
 
         if (ownerOpt.isEmpty()) {
