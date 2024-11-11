@@ -11,6 +11,8 @@ import com.eud.ixtar.kanban.task.KanbanTaskService;
 import com.eud.ixtar.project.Project;
 import com.eud.ixtar.project.ProjectService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class KanbanSetUpService {
     private final KanbanColumnService columnService;
@@ -23,15 +25,19 @@ public class KanbanSetUpService {
         this.projectService = projectService;
     }
 
+    @Transactional
     public void setupKanbanForNewProject(Integer projectId) {
-        // Obtener el objeto Project usando el ID
-        Optional<Project> project = projectService.getProjectById(projectId);  // Suponiendo que tienes un servicio que lo obtiene
+        if (!columnService.getColumnsByProject(projectId).isEmpty()) {
+            throw new IllegalStateException("El proyecto ya tiene columnas asignadas.");
+        }
+
+        Optional<Project> project = projectService.getProjectById(projectId); 
         
-        // Definir las columnas predeterminadas
+
         KanbanColumn toDoColumn = new KanbanColumn();
         toDoColumn.setName("Pendiente");
         toDoColumn.setPosition(1);
-        toDoColumn.setProject(project.orElseThrow(() -> new IllegalStateException("Project not found"))); // Asignar el objeto Project, no el ID
+        toDoColumn.setProject(project.orElseThrow(() -> new IllegalStateException("Project not found"))); 
     
         KanbanColumn inProgressColumn = new KanbanColumn();
         inProgressColumn.setName("En Proceso");
@@ -43,12 +49,12 @@ public class KanbanSetUpService {
         completedColumn.setPosition(3);
         completedColumn.setProject(project.orElseThrow(() -> new IllegalStateException("Project not found")));
     
-        // Guardar las columnas
+   
         columnService.createColumn(toDoColumn);
         columnService.createColumn(inProgressColumn);
         columnService.createColumn(completedColumn);
     
-        // Definir tareas predeterminadas
+
         KanbanTask task1 = new KanbanTask();
         task1.setTitle("Crear la estructura básica de la aplicación");
         task1.setDescription("Descripción de la tarea");
