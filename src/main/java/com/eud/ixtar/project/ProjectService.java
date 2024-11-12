@@ -5,15 +5,19 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.eud.ixtar.kanban.KanbanSetUpService;
+
 import jakarta.transaction.Transactional;
 
 @Service
 public class ProjectService {
 
     private final ProjectRepository projectRepository;
+    private final KanbanSetUpService kanbanSetUpService;
 
-    public ProjectService(ProjectRepository projectRepository) {
+    public ProjectService(ProjectRepository projectRepository, KanbanSetUpService kanbanSetUpService) {
         this.projectRepository = projectRepository;
+        this.kanbanSetUpService = kanbanSetUpService;
     }
 
     @Transactional
@@ -21,7 +25,11 @@ public class ProjectService {
         if (projectRepository.existsByNameAndOwner(project.getName(), project.getOwner())) {
             throw new IllegalStateException("Ya existe un proyecto con este nombre para el mismo dueño.");
         }
-        return projectRepository.save(project);
+        Project savedProject = projectRepository.save(project);
+
+        kanbanSetUpService.setupKanbanForNewProject(savedProject.getId());
+
+        return savedProject;
     }
 
     public Optional<Project> getProjectById(Integer id) {
