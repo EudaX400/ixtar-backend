@@ -3,6 +3,7 @@ package com.eud.ixtar.project;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.eud.ixtar.kanban.KanbanSetUpService;
@@ -15,7 +16,7 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final KanbanSetUpService kanbanSetUpService;
 
-    public ProjectService(ProjectRepository projectRepository, KanbanSetUpService kanbanSetUpService) {
+    public ProjectService(ProjectRepository projectRepository, @Lazy KanbanSetUpService kanbanSetUpService) {
         this.projectRepository = projectRepository;
         this.kanbanSetUpService = kanbanSetUpService;
     }
