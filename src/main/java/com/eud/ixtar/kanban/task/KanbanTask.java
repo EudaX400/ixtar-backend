@@ -42,6 +42,10 @@ public class KanbanTask {
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
+    public Integer getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }

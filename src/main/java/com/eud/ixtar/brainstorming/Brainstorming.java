@@ -28,6 +28,10 @@ public class Brainstorming {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    public Integer getId(){
+        return id;
+    }
+
     public String getIdea(){
         return idea;
     }

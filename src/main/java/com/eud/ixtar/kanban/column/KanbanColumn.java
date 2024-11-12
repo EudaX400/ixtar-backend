@@ -27,6 +27,10 @@ public class KanbanColumn {
     @OneToMany(mappedBy = "column", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<KanbanTask> tasks;
 
+    public Integer getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }

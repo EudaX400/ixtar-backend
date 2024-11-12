@@ -18,7 +18,6 @@ public class ProjectService {
 
     @Transactional
     public Project createProject(Project project) {
-        // Verifica si ya existe un proyecto con el mismo nombre y dueño
         if (projectRepository.existsByNameAndOwner(project.getName(), project.getOwner())) {
             throw new IllegalStateException("Ya existe un proyecto con este nombre para el mismo dueño.");
         }
