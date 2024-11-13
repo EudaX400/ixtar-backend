@@ -67,16 +67,16 @@ public class KanbanSetUpService {
         task2.setTitle("Añadir material cdk");
         task2.setDescription("Descripción de la tarea");
         task2.setColumn(inProgressColumn);
-        task1.setPosition(1);
+        task2.setPosition(1);
         task2.setProject(project.orElseThrow(() -> new IllegalStateException("Project not found")));
         taskService.createTask(task2);
 
         KanbanTask task3 = new KanbanTask();
-        task2.setTitle("Organizar cada parte del proyecto entre el equipo");
-        task2.setDescription("Descripción de la tarea");
-        task2.setColumn(completedColumn);
-        task1.setPosition(1);
-        task2.setProject(project.orElseThrow(() -> new IllegalStateException("Project not found")));
+        task3.setTitle("Organizar cada parte del proyecto entre el equipo");
+        task3.setDescription("Descripción de la tarea");
+        task3.setColumn(completedColumn);
+        task3.setPosition(1);
+        task3.setProject(project.orElseThrow(() -> new IllegalStateException("Project not found")));
         taskService.createTask(task3);
     }
 }
